@@ -9,7 +9,12 @@ Fənlər üzrə interaktiv test tətbiqi. Yalnız frontend-dir (HTML, CSS, JS). 
 | AR Konstitusiyası və hüququn əsasları (00149, EN) | 222 | Aktiv |
 | Kartoqrafiya və GIS | – | Sessiya bitmişdir |
 
-Girişdə fənn seçilir. Sessiyası bitmiş fənlər siyahıda qalır, amma açılmır.
+Girişdə fənn seçilir, sonra iki rejimdən biri:
+
+- **Hazırlaş:** bütün suallar düzgün cavabları ilə. Axtarış, bütün variantları göstərmək, cavabları gizlədib bir-bir açmaq və orijinal PDF-i açmaq olur.
+- **Test et:** aşağıdakı test funksiyaları.
+
+Sessiyası bitmiş fənlər siyahıda qalır, amma açılmır.
 
 ## Xüsusiyyətlər
 
@@ -43,6 +48,7 @@ Girişdə fənn seçilir. Sessiyası bitmiş fənlər siyahıda qalır, amma aç
 ```
 ├── index.html        # Tətbiqin özü (UI və məntiq)
 ├── konstitusiya.js   # Konstitusiya fənninin sualları
+├── pdf/              # Fənlərin orijinal PDF faylları
 └── README.md
 ```
 
@@ -69,6 +75,7 @@ window.SUBJECTS.push({
   "name": "Fənnin tam adı",
   "short": "Qısa ad",           // naviqasiyada görünür
   "desc": "Qısa təsvir",
+  "pdf": "pdf/fenn.pdf",       // istəyə görə: Hazırlaş bölməsində "PDF-i aç" düyməsi
   "questions": [
     { "q": "Sualın mətni", "a": ["Düzgün cavab", "Variant 2", "Variant 3", "Variant 4", "Variant 5"] }
   ]

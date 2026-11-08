@@ -4,6 +4,7 @@ window.SUBJECTS.push({
 "name": "AR Konstitusiyası və hüququn əsasları",
 "short": "Konstitusiya",
 "desc": "00149 · Ara imtahan 1 (EN)",
+"pdf": "pdf/konstitusiya.pdf",
 "questions": [
 {
 "q": "The jurisdiction of the Milli Majlis of the Republic of Azerbaijan includes the resolution of which of the following issues?",

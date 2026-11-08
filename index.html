@@ -105,6 +105,30 @@
   .back-link{display:inline-flex;align-items:center;gap:6px;border:0;background:none;padding:0;margin-bottom:14px;font-size:.88rem;font-weight:600;color:var(--muted)}
   .back-link:hover{color:var(--text)}
 
+  /* study */
+  .study-head{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+  .study-head h1{font-size:clamp(1.5rem,4vw,2rem);letter-spacing:-.03em;line-height:1.15;margin:0}
+  .study-head p{margin:4px 0 0;color:var(--muted);font-size:.9rem}
+  .study-bar{position:sticky;top:64px;z-index:20;display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:12px 16px;margin-bottom:14px}
+  .search{flex:1 1 240px;display:flex;align-items:center;gap:8px;padding:0 12px;border-radius:12px;border:1px solid var(--line-2);background:var(--surface-2);color:var(--muted)}
+  .search:focus-within{border-color:var(--brand);box-shadow:0 0 0 4px var(--brand-ring);background:var(--surface-solid)}
+  .search input{flex:1;min-width:0;border:0;background:transparent;outline:none;padding:10px 0;font-size:.95rem;color:var(--text)}
+  .mini-toggle{display:inline-flex;align-items:center;gap:10px;font-size:.86rem;font-weight:600;color:var(--text-2);cursor:pointer;user-select:none}
+  .mini-toggle input{display:none}
+  .mini-toggle input:checked + .switch{background:var(--brand)}
+  .mini-toggle input:checked + .switch::after{transform:translateX(16px)}
+  .study-count{font-size:.82rem;color:var(--muted);margin:0 0 10px}
+  .sitem{padding:18px 20px}
+  .sitem .rq{margin-bottom:8px}
+  .sopts{display:grid;gap:4px;margin:0;padding:0;list-style:none}
+  .sopts li{display:flex;gap:10px;align-items:flex-start;padding:7px 12px;border-radius:10px;font-size:.92rem;color:var(--text-2)}
+  .sopts li b{flex:0 0 18px;font-size:.8rem;color:var(--muted);padding-top:1px}
+  .sopts li.ok{background:var(--ok-soft);color:var(--ok);font-weight:600}
+  .sopts li.ok b{color:var(--ok)}
+  .reveal{margin-top:8px;border:1px dashed var(--line-2);background:transparent;border-radius:10px;padding:8px 12px;font-size:.85rem;font-weight:600;color:var(--muted)}
+  .reveal:hover{color:var(--text);border-color:var(--brand-ring)}
+  mark{background:var(--warn-soft);color:inherit;border-radius:3px;padding:0 1px}
+
   /* setup */
   .setup-grid{display:grid;grid-template-columns:1fr 1fr;gap:0}
   .setup-col{padding:28px}
@@ -339,6 +363,9 @@
     <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="1" fill="currentColor"/></symbol>
     <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="i-chev" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5zM4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9zM14 3v6h6M9 14h6M9 18h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="i-map" viewBox="0 0 24 24"><path d="M3 6.5 9 4l6 2.5L21 4v13.5L15 20l-6-2.5L3 20z M9 4v13.5M15 6.5V20" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
   </defs>
 </svg>
@@ -368,9 +395,50 @@
       <div class="subjects" id="subjectList"></div>
     </section>
 
+    <!-- MODE -->
+    <section id="mode" class="view hidden">
+      <button class="back-link" data-back="subjects"><svg width="16" height="16"><use href="#i-arrow-l"/></svg>Fənlər</button>
+      <div class="hero">
+        <div class="eyebrow"><span class="dot"></span><span class="js-subj-desc"></span></div>
+        <h1 class="js-subj-name"></h1>
+        <p>Əvvəlcə sualları cavabları ilə oxuyub hazırlaş, sonra özünü test et.</p>
+      </div>
+      <div class="subjects">
+        <button class="subj" id="studyBtn">
+          <span class="subj-ic"><svg width="22" height="22"><use href="#i-book"/></svg></span>
+          <div><h3>Hazırlaş</h3><p>Bütün suallar düzgün cavabları ilə. Axtarış, cavabları gizlətmək və PDF.</p></div>
+          <div class="subj-foot"><span class="js-subj-count"></span><svg width="18" height="18"><use href="#i-arrow-r"/></svg></div>
+        </button>
+        <button class="subj" id="testBtn">
+          <span class="subj-ic"><svg width="22" height="22"><use href="#i-target"/></svg></span>
+          <div><h3>Test et</h3><p>Testi istədiyin kimi qur, nəticəni gör və səhvlərin üzərində işlə.</p></div>
+          <div class="subj-foot"><span>Testə keç</span><svg width="18" height="18"><use href="#i-arrow-r"/></svg></div>
+        </button>
+      </div>
+    </section>
+
+    <!-- STUDY -->
+    <section id="study" class="view hidden">
+      <button class="back-link" data-back="mode"><svg width="16" height="16"><use href="#i-arrow-l"/></svg>Geri</button>
+      <div class="study-head">
+        <div><h1 class="js-subj-name"></h1><p>Hazırlıq · düzgün cavab yaşıl rənglə göstərilir</p></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <a class="btn btn-ghost" id="pdfBtn" target="_blank" rel="noopener"><svg width="17" height="17"><use href="#i-file"/></svg>PDF-i aç</a>
+          <button class="btn btn-primary" id="studyTestBtn"><svg width="17" height="17"><use href="#i-target"/></svg>Test et</button>
+        </div>
+      </div>
+      <div class="panel study-bar">
+        <label class="search"><svg width="17" height="17"><use href="#i-search"/></svg><input id="studySearch" type="search" placeholder="Sual və ya cavab axtar…"></label>
+        <label class="mini-toggle"><input type="checkbox" id="studyAll"><span class="switch"></span>Bütün variantlar</label>
+        <label class="mini-toggle"><input type="checkbox" id="studyHide"><span class="switch"></span>Cavabları gizlət</label>
+      </div>
+      <p class="study-count" id="studyCount"></p>
+      <div class="review" id="studyList"></div>
+    </section>
+
     <!-- SETUP -->
     <section id="setup" class="view hidden">
-      <button class="back-link" id="backToSubjects"><svg width="16" height="16"><use href="#i-arrow-l"/></svg>Fənlər</button>
+      <button class="back-link" data-back="mode"><svg width="16" height="16"><use href="#i-arrow-l"/></svg>Geri</button>
       <div class="hero">
         <div class="eyebrow"><span class="dot"></span><span id="subjDesc"></span></div>
         <h1 id="subjTitle"></h1>
@@ -611,11 +679,66 @@
     $('subjTitle').textContent = SUBJ.name;
     $('subjDesc').textContent = SUBJ.desc || 'İnteraktiv test';
     $('brandSub').textContent = SUBJ.short || SUBJ.name;
-    renderSetup(); show('setup');
+    document.querySelectorAll('.js-subj-name').forEach(el => el.textContent = SUBJ.name);
+    document.querySelectorAll('.js-subj-desc').forEach(el => el.textContent = SUBJ.desc || 'İnteraktiv test');
+    document.querySelectorAll('.js-subj-count').forEach(el => el.textContent = `${TOTAL} sual`);
+    $('pdfBtn').classList.toggle('hidden', !SUBJ.pdf);
+    if (SUBJ.pdf) $('pdfBtn').href = SUBJ.pdf;
+    show('mode');
   }
   $('subjectList').addEventListener('click', e => { const b = e.target.closest('[data-id]'); if (b) selectSubject(b.dataset.id); });
   const goSubjects = () => { renderSubjects(); show('subjects'); };
-  $('backToSubjects').onclick = () => goSubjects();
+  const goSetup = () => { renderSetup(); show('setup'); };
+  document.querySelectorAll('[data-back]').forEach(b => b.onclick = () => b.dataset.back === 'subjects' ? goSubjects() : show(b.dataset.back));
+  $('testBtn').onclick = goSetup;
+  $('studyTestBtn').onclick = goSetup;
+  $('studyBtn').onclick = () => { $('studySearch').value = ''; revealed.clear(); renderStudy(); show('study'); };
+
+  // ---------- study ----------
+  const STUDY = 'study-prefs-v1';
+  const SP = { all:false, hide:false, ...JSON.parse(localStorage.getItem(STUDY) || '{}') };
+  const revealed = new Set();
+  // Same option order on every render, but the correct answer is not always first.
+  const seededOrder = (n, seed) => {
+    let x = (seed + 1) * 9301 + 49297;
+    const rnd = () => (x = (x * 9301 + 49297) % 233280) / 233280;
+    const a = [...Array(n).keys()];
+    for (let i = n - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+    return a;
+  };
+  // Treat I/İ/ı/i as the same letter so English and Azerbaijani typing both match.
+  const norm = t => String(t).replace(/[İI]/g, 'i').toLowerCase().replace(/ı/g, 'i');
+  const hl = (text, term) => {
+    const safe = esc(text);
+    if (!term) return safe;
+    const re = new RegExp(esc(term).replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+    return safe.replace(re, m => `<mark>${m}</mark>`);
+  };
+
+  function renderStudy() {
+    $('studyAll').checked = SP.all; $('studyHide').checked = SP.hide;
+    const term = $('studySearch').value.trim();
+    const t = norm(term);
+    const rows = Q.map((q, i) => ({ q, i })).filter(({ q }) => !t || norm(q.q).includes(t) || q.a.some(a => norm(a).includes(t)));
+    $('studyCount').textContent = t ? `${rows.length} / ${TOTAL} sual tapıldı` : `${TOTAL} sual`;
+    if (!rows.length) { $('studyList').innerHTML = '<div class="panel empty">Heç nə tapılmadı.</div>'; return; }
+    $('studyList').innerHTML = rows.map(({ q, i }) => {
+      const show = !SP.hide || revealed.has(i);
+      let body;
+      if (SP.all) {
+        body = '<ul class="sopts">' + seededOrder(q.a.length, i).map((oi, pos) =>
+          `<li class="${show && oi === 0 ? 'ok' : ''}"><b>${LETTERS[pos]}</b><span>${hl(q.a[oi], term)}</span>${show && oi === 0 ? icon('check') : ''}</li>`).join('') + '</ul>';
+      } else {
+        body = show ? `<div class="ra ok">${icon('check')}<span>${hl(q.a[0], term)}</span></div>` : '';
+      }
+      if (!show) body += `<button class="reveal" data-rv="${i}">Cavabı göstər</button>`;
+      return `<div class="panel sitem"><div class="rq"><span class="num">${i + 1}.</span><span>${hl(q.q, term)}</span></div>${body}</div>`;
+    }).join('');
+  }
+  $('studySearch').addEventListener('input', renderStudy);
+  $('studyAll').addEventListener('change', e => { SP.all = e.target.checked; localStorage.setItem(STUDY, JSON.stringify(SP)); renderStudy(); });
+  $('studyHide').addEventListener('change', e => { SP.hide = e.target.checked; revealed.clear(); localStorage.setItem(STUDY, JSON.stringify(SP)); renderStudy(); });
+  $('studyList').addEventListener('click', e => { const b = e.target.closest('[data-rv]'); if (b) { revealed.add(+b.dataset.rv); renderStudy(); } });
 
   ['from','to','count'].forEach(k => {
     $(k).addEventListener('input', e => { S[k] = e.target.value; });
@@ -644,7 +767,7 @@
   let items = [], cur = 0, lastPool = [];
 
   function show(id) {
-    ['subjects','setup','quiz','results'].forEach(s => {
+    ['subjects','mode','study','setup','quiz','results'].forEach(s => {
       const el = $(s);
       el.classList.toggle('hidden', s !== id);
       if (s === id) { el.style.animation = 'none'; el.offsetHeight; el.style.animation = ''; }
