@@ -1,3 +1,6 @@
 .vscode/
 .DS_Store
 Thumbs.db
+
+# loose PDFs in the root (served copies live in pdf/)
+/*.pdf
