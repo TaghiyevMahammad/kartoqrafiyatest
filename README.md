@@ -1,8 +1,18 @@
-# Kartoqrafiya Test
+# Test Platforması
 
-Kartoqrafiya və GIS üzrə interaktiv test tətbiqi. Yalnız frontend-dir (HTML, CSS, JS). Server və ya build tələb etmir.
+Fənlər üzrə interaktiv test tətbiqi. Yalnız frontend-dir (HTML, CSS, JS). Server və ya build tələb etmir.
+
+## Fənlər
+
+| Fənn | Sual | Status |
+|---|---|---|
+| AR Konstitusiyası və hüququn əsasları (00149, EN) | 222 | Aktiv |
+| Kartoqrafiya və GIS | – | Sessiya bitmişdir |
+
+Girişdə fənn seçilir. Sessiyası bitmiş fənlər siyahıda qalır, amma açılmır.
 
 ## Xüsusiyyətlər
+
 
 - **Sualları qarışdır:** suallar təsadüfi ardıcıllıqla gəlir.
 - **Variantları qarışdır:** cavabların yeri hər dəfə dəyişir.
@@ -16,7 +26,7 @@ Kartoqrafiya və GIS üzrə interaktiv test tətbiqi. Yalnız frontend-dir (HTML
 - **Sual xəritəsi:** istənilən suala birbaşa keçmək olur.
 - **Açıq və qaranlıq tema.**
 - **Mobilə uyğun dizayn.**
-- Ayarlar brauzerdə yadda qalır (`localStorage`).
+- Ayarlar hər fənn üçün ayrıca brauzerdə yadda qalır (`localStorage`).
 
 ## Klaviatura qısayolları
 
@@ -31,8 +41,8 @@ Kartoqrafiya və GIS üzrə interaktiv test tətbiqi. Yalnız frontend-dir (HTML
 ## Fayl strukturu
 
 ```
-├── index.html     # Tətbiqin özü (UI və məntiq)
-├── questions.js   # Suallar bazası
+├── index.html        # Tətbiqin özü (UI və məntiq)
+├── konstitusiya.js   # Konstitusiya fənninin sualları
 └── README.md
 ```
 
@@ -48,45 +58,25 @@ Statik saytdır. Qovluğu olduğu kimi istənilən statik hostinqə yükləmək 
 - **Vercel:** `vercel` əmri ilə və ya GitHub reposunu qoşmaqla.
 - **GitHub Pages:** repo → Settings → Pages → Branch: `main` / root.
 
-## Sualların formatı
+## Yeni fənn əlavə etmək
 
-Suallar `questions.js` faylındadır:
+1. Yeni fayl yaradın, məsələn `fenn.js`:
 
 ```js
-window.QUESTIONS = [
-  {
-    "t": 1,               // mövzu
-    "d": 1,               // çətinlik
-    "q": "Sualın mətni",
-    "a": ["Düzgün cavab", "Variant 2", "Variant 3", "Variant 4", "Variant 5"]
-  }
-];
+window.SUBJECTS = window.SUBJECTS || [];
+window.SUBJECTS.push({
+  "id": "fenn",                 // unikal açar
+  "name": "Fənnin tam adı",
+  "short": "Qısa ad",           // naviqasiyada görünür
+  "desc": "Qısa təsvir",
+  "questions": [
+    { "q": "Sualın mətni", "a": ["Düzgün cavab", "Variant 2", "Variant 3", "Variant 4", "Variant 5"] }
+  ]
+});
 ```
 
-> `a` massivində **birinci cavab həmişə düzgün cavabdır**. Ekranda variantlar qarışdırılır.
+> `a` massivində **birinci cavab həmişə düzgün cavabdır**. Ekranda variantlar qarışdırılır. İstəyə görə `t` (mövzu) və `d` (çətinlik, 1–3) sahələri də əlavə etmək olar.
 
-### Excel faylından yeniləmək
+2. `index.html`-də `<script src="konstitusiya.js"></script>` sətrinin yanına `<script src="fenn.js"></script>` əlavə edin.
 
-Excel strukturu belədir: `N | Movzu | CETINLIK | Sual | Cavab01 (düzgün) | Cavab02 … Cavab05`.
-
-`questions.js` faylını yenidən yaratmaq üçün (Python və `openpyxl` lazımdır):
-
-```bash
-pip install openpyxl
-python -c "
-import openpyxl, json, re
-ws = openpyxl.load_workbook('Kartoqrafiya az test (1).xlsx').active
-def c(v):
-    if v is None: return ''
-    if isinstance(v, float) and v.is_integer(): v = int(v)
-    s = re.sub(r'\s+', ' ', str(v)).strip()
-    return s[1:-1].strip() if len(s) > 1 and s[0] == s[-1] == '\"' else s
-out = []
-for r in ws.iter_rows(min_row=2, values_only=True):
-    if not c(r[3]): continue
-    out.append({'t': int(r[1] or 0), 'd': int(r[2] or 0), 'q': c(r[3]), 'a': [c(x) for x in r[4:9] if c(x)]})
-open('questions.js', 'w', encoding='utf-8').write('window.QUESTIONS = ' + json.dumps(out, ensure_ascii=False, indent=0) + ';\n')
-print(len(out), 'sual yazıldı')
-"
-```
-
+3. Fənnin sessiyası bitəndə onun faylını silin və adını `index.html`-dəki `CLOSED` siyahısına əlavə edin. O zaman fənn "Sessiya bitmişdir" yazısı ilə göstərilir.
